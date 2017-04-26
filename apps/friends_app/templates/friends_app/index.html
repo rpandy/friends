@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Friends</title>
+    </head>
+    <body>
+
+        <h2>Welcome {{request.session.first_name}}!!</h2>
+        <!-- user id:{{user.id}} -->
+
+        <h4>(INCOMPLETE) - Here is a list of your friends!</h4>
+        <h5>ALL USERS</h5>
+        {% for user in users %}
+            <ul>
+                <li>
+                    Alias: {{user.first_name}} -
+                    <a href="{% url 'friends:user' user.id %}">View Profile</a>
+                    <a href="{% url 'friends:delete' user.id %}">Remove as friend</a>
+                </li>
+            </ul>
+        {% endfor %}
+
+        <h5>(INCOMPLETE) - Other users not on your friends list </h5>
+
+        {% for user in users %}
+            <ul>
+                <li>
+                    <a href="{% url 'friends:user' user.id %}">{{user.first_name}}</a>
+                    <form name="add" action="{% url 'friends:new' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="friends" value="True">
+                        <input type="submit" value="Add as Friend">
+                    </form>
+                </li>
+            </ul>
+        {% endfor %}
+
+        <a href="{% url 'auth:logout' %}">logout</a>
+    </body>
+</html>
